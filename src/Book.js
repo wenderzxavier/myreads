@@ -1,22 +1,33 @@
 import React, { Component } from 'react';
-import * as BookAPI from './BookAPI'
+import PropTypes from 'prop-types';
+// import { update as changeShelf } from './BookAPI'
 
 class Book extends Component {
-    handleSelect(evt) {
-        BookAPI.update(this.props.id, evt).then( result => {
-            console.log(result);
+/*    onChangeShelf = (bookId, shelf) => {
+        changeShelf(bookId, shelf).then(result => {
+            this.setState({
+                bookList: result
+            })
         })
+    }
+*/
+    static propTypes = {
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        shelf: PropTypes.string.isRequired,
+        author: PropTypes.array,
+        cover: PropTypes.string
     }
 
     render() {
-        const { title, author, cover } = this.props;
+        const { id, title, author, cover, shelf } = this.props;
         return (
             <li>
                 <div className="book">
                     <div className="book-top">
                         <div className="book-cover" style={{ backgroundImage: `url("${cover}")` }}></div>
                         <div className="book-shelf-changer">
-                            <select id="" onChange={(evt) => this.handleSelect(evt.target.value)}>
+                            <select defaultValue={shelf} onChange={(evt) => console.log(id, evt.target.value)}>
                                 <option value="move" disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
                                 <option value="wantToRead">Want to Read</option>
