@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
+import * as BookAPI from './BookAPI'
 
 class Book extends Component {
+    handleSelect(evt) {
+        BookAPI.update(this.props.id, evt).then( result => {
+            console.log(result);
+        })
+    }
+
     render() {
         const { title, author, cover } = this.props;
         return (
@@ -9,7 +16,7 @@ class Book extends Component {
                     <div className="book-top">
                         <div className="book-cover" style={{ backgroundImage: `url("${cover}")` }}></div>
                         <div className="book-shelf-changer">
-                            <select>
+                            <select id="" onChange={(evt) => this.handleSelect(evt.target.value)}>
                                 <option value="move" disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
                                 <option value="wantToRead">Want to Read</option>
@@ -19,7 +26,7 @@ class Book extends Component {
                         </div>
                     </div>
                     <div className="book-title">{title}</div>
-                    <div className="book-authors">{author}}</div>
+                    <div className="book-authors">{author}</div>
                 </div>
             </li>
         )

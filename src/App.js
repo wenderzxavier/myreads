@@ -2,10 +2,26 @@ import React from 'react'
 import './App.css'
 import Book from './Book'
 import SearchBook from './SearchBook'
+import * as BookAPI from './BookAPI'
 
 class BooksApp extends React.Component {
   state = {
     showSearchPage: false,
+    searchBookList: {}
+  }
+
+  onSearchBooks = (query) => {
+    if(query) {
+      BookAPI.search(query).then( (result) => { 
+        this.setState({ 
+          searchBookList: result 
+        }) 
+      }) 
+    } else {
+      this.setState({
+        searchBookList: {}
+      })
+    }
   }
 
   render() {
@@ -13,7 +29,7 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         {this.state.showSearchPage ? (
-          <SearchBook />
+          <SearchBook onSearchBooks={(book) => { this.onSearchBooks(book) }} bookList={this.state.searchBookList}/>
         ) : (
           <div className="list-books">
             <div className="list-books-title">
