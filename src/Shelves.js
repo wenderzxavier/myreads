@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Book from './Book'
 import PropTypes from 'prop-types'
 
-
 class Shelves extends Component {
     static propTypes = {
         bookList: PropTypes.array.isRequired,
@@ -29,10 +28,10 @@ class Shelves extends Component {
                                     }</h2>
                                     <div className="bookshelf-books">
                                         <ol className="books-grid">
-                                            {bookList.filter(item => item.shelf === shelf).map((book, idx) => {
+                                            {bookList.filter(item => item.shelf === shelf).map((book) => {
                                                 return (
                                                     <Book
-                                                        key={idx}
+                                                        key={book.id}
                                                         bookData={book}
                                                         onChangeShelf={onChangeShelf}
                                                     />

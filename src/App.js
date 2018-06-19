@@ -16,18 +16,15 @@ class BooksApp extends React.Component {
     await BookAPI.getAll().then((result) => {
       this.setState({ bookList: result })
     })
-    console.log(this.state.bookList);
-    console.log(this.state.shelfList);
   }
 
   changeShelf = async (book, shelf) => {
-    if( !book.hasOwnProperty('shelf') ) {
-      this.setState( state => ({
-        bookList: state.bookList.push(book)
+    if (!book.hasOwnProperty('shelf')) {
+      this.setState(state => ({
+        bookList: state.bookList.concat( [book] )
       }))
     }
-    console.log(shelf);
-    await BookAPI.update( book, shelf).then( shelfList => {
+    await BookAPI.update(book, shelf).then(shelfList => {
       this.setState({ shelfList })
     })
     this.getAllBooks();
@@ -36,11 +33,7 @@ class BooksApp extends React.Component {
   searchBooks = async (query) => {
     if (query) {
       await BookAPI.search(query).then((result) => {
-        // this.state.bookList.push(result[1])
-        // console.log(this.state.bookList)
-        // console.log(this.state.shelfList)
-        // this.changeShelf(result[1], "wantToRead")
-         this.setState({
+        this.setState({
           searchBookList: result.hasOwnProperty('error') ? ["error"] : result
         })
       })
@@ -57,23 +50,26 @@ class BooksApp extends React.Component {
 
   render() {
     return (
-      <div className="app">
-        {this.state.showSearchPage ? (
-          <SearchBook
-            onSearchBooks={(book) => this.searchBooks(book)}
-            bookList={this.state.searchBookList}
-            onChangeShelf={this.changeShelf}
-          />
-        ) : (
-            <Shelves
-              bookList={this.state.bookList}
+      <div className="app" >
+        {
+          this.state.showSearchPage ? (
+            <SearchBook
+              onSearchBooks={(query) => this.searchBooks(query)}
+              booksFound={this.state.searchBookList}
               onChangeShelf={this.changeShelf}
+              bookList={this.state.bookList}
             />
-          )}
-        <div className="open-search">
+          ) : (
+              <Shelves
+                bookList={this.state.bookList}
+                onChangeShelf={this.changeShelf}
+              />
+            )
+        }
+        < div className="open-search" >
           <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-        </div>
-      </div>
+        </div >
+      </div >
     )
   }
 }
