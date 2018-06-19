@@ -1,33 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { update as changeShelf } from './BookAPI'
 
 class Book extends Component {
-/*    onChangeShelf = (bookId, shelf) => {
-        changeShelf(bookId, shelf).then(result => {
-            this.setState({
-                bookList: result
-            })
-        })
-    }
-*/
     static propTypes = {
-        id: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        shelf: PropTypes.string.isRequired,
-        author: PropTypes.array,
-        cover: PropTypes.string
+        onChangeShelf: PropTypes.func.isRequired,
+        bookData: PropTypes.object
+    }
+
+    addBookShelf(newShelf) {
+        const { bookData, onChangeShelf } = this.props;
+        onChangeShelf(bookData, newShelf);
     }
 
     render() {
-        const { id, title, author, cover, shelf } = this.props;
+        const { bookData } = this.props;
         return (
             <li>
                 <div className="book">
                     <div className="book-top">
-                        <div className="book-cover" style={{ backgroundImage: `url("${cover}")` }}></div>
+                        <div className="book-cover" style={{ backgroundImage: `url("${bookData.hasOwnProperty('imageLinks') ? bookData.imageLinks['thumbnail'] : " "}")` }}></div>
                         <div className="book-shelf-changer">
-                            <select defaultValue={shelf} onChange={(evt) => console.log(id, evt.target.value)}>
+                            <select
+                                defaultValue={bookData.shelf || "none"}
+                                onChange={(evt) => this.addBookShelf(evt.target.value)}>
                                 <option value="move" disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
                                 <option value="wantToRead">Want to Read</option>
@@ -36,8 +31,8 @@ class Book extends Component {
                             </select>
                         </div>
                     </div>
-                    <div className="book-title">{title}</div>
-                    <div className="book-authors">{author}</div>
+                    <div className="book-title">{bookData.title}</div>
+                    <div className="book-authors">{bookData.author}</div>
                 </div>
             </li>
         )

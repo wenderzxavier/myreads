@@ -5,12 +5,13 @@ import PropTypes from 'prop-types'
 
 class Shelves extends Component {
     static propTypes = {
-        bookList: PropTypes.array.isRequired
+        bookList: PropTypes.array.isRequired,
+        onChangeShelf: PropTypes.func.isRequired
     }
 
     render() {
         const shelves = ["currentlyReading", "wantToRead", "read"];
-        const { bookList } = this.props;
+        const { bookList, onChangeShelf } = this.props;
         return (
             <div className="list-books">
                 <div className="list-books-title">
@@ -28,19 +29,15 @@ class Shelves extends Component {
                                     }</h2>
                                     <div className="bookshelf-books">
                                         <ol className="books-grid">
-                                            {
-                                                bookList.filter(item => item.shelf === shelf).map((book, idx) => {
-                                                    return (
-                                                        <Book
-                                                            key={idx}
-                                                            id={book.id}
-                                                            title={book.title}
-                                                            author={book.authors}
-                                                            shelf={book.shelf}
-                                                            cover={book.hasOwnProperty('imageLinks') ? book.imageLinks['thumbnail'] : ""}
-                                                        />
-                                                    )
-                                                })
+                                            {bookList.filter(item => item.shelf === shelf).map((book, idx) => {
+                                                return (
+                                                    <Book
+                                                        key={idx}
+                                                        bookData={book}
+                                                        onChangeShelf={onChangeShelf}
+                                                    />
+                                                )
+                                            })
                                             }
                                         </ol>
                                     </div>

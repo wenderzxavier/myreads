@@ -5,11 +5,12 @@ import PropTypes from 'prop-types'
 class SearchBook extends Component {
     static propTypes = {
         onSearchBooks: PropTypes.func.isRequired,
-        bookList: PropTypes.array
+        onChangeShelf: PropTypes.func.isRequired,
+        bookList: PropTypes.array.isRequired
     }
 
     render() {
-        const { bookList, onSearchBooks } = this.props;
+        const { bookList, onSearchBooks, onChangeShelf } = this.props;
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -20,17 +21,20 @@ class SearchBook extends Component {
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid">
-                        { (bookList.length > 0 && bookList[0] === "error") ? <p>Sorry, no result found.</p> :
-                            Object.keys(bookList).map((item, index) => {
+                        {(bookList.length > 0 && bookList[0] === "error") ? <p>Sorry, no result found.</p> :
+                            Object.values(bookList).map((item, index) => {
                                 return (
                                     <Book
                                         key={index}
-                                        id={bookList[item].id}
-                                        title={bookList[item].title}
+                                        bookData={item}
+//                                        id={bookList[item].id}
+//                                        title={bookList[item].title}
                                         // TODO: Fix author display on Book authors
-                                        author={bookList[item].authors}
-                                        shelf={"none"}
-                                        cover={bookList[item].hasOwnProperty('imageLinks') ? bookList[item].imageLinks['thumbnail'] : " "} />)
+//                                        author={bookList[item].authors}
+//                                        shelf={"none"}
+//                                        cover={bookList[item].hasOwnProperty('imageLinks') ? bookList[item].imageLinks['thumbnail'] : " "}
+                                        onChangeShelf={onChangeShelf}
+                                    />)
                             })
                         }
                     </ol>
