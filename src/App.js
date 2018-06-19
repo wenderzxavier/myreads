@@ -3,10 +3,10 @@ import './App.css'
 import SearchBook from './SearchBook'
 import * as BookAPI from './BookAPI'
 import Shelves from './Shelves'
+import { Route } from 'react-router-dom'
 
 class BooksApp extends React.Component {
   state = {
-    showSearchPage: false,
     searchBookList: [],
     bookList: [],
     shelfList: {}
@@ -21,7 +21,7 @@ class BooksApp extends React.Component {
   changeShelf = async (book, shelf) => {
     if (!book.hasOwnProperty('shelf')) {
       this.setState(state => ({
-        bookList: state.bookList.concat( [book] )
+        bookList: state.bookList.concat([book])
       }))
     }
     await BookAPI.update(book, shelf).then(shelfList => {
@@ -51,25 +51,23 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app" >
-        {
-          this.state.showSearchPage ? (
-            <SearchBook
-              onSearchBooks={(query) => this.searchBooks(query)}
-              booksFound={this.state.searchBookList}
-              onChangeShelf={this.changeShelf}
-              bookList={this.state.bookList}
-            />
-          ) : (
-              <Shelves
-                bookList={this.state.bookList}
-                onChangeShelf={this.changeShelf}
-              />
-            )
-        }
-        < div className="open-search" >
-          <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-        </div >
-      </div >
+        <Route exact path="/search" render={() => (
+          <SearchBook
+            onSearchBooks={(query) => this.searchBooks(query)}
+            booksFound={this.state.searchBookList}
+            onChangeShelf={this.changeShelf}
+            bookList={this.state.bookList}
+          />
+        )}
+        />
+        <Route exact path="/" render={() => (
+          <Shelves
+            bookList={this.state.bookList}
+            onChangeShelf={this.changeShelf}
+          />
+        )}
+        />
+      </div>
     )
   }
 }

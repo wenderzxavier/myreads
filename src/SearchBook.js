@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Book from './Book'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 class SearchBook extends Component {
     state = {
@@ -21,7 +22,7 @@ class SearchBook extends Component {
                 let myBook = (props.bookList.find((bookOnShelf) => {
                     return (book.id === bookOnShelf.id)
                 }))
-                return(displayBooks.push(myBook ? myBook : book))
+                return (displayBooks.push(myBook ? myBook : book))
             })
         }
         this.setState({
@@ -35,7 +36,7 @@ class SearchBook extends Component {
         return (
             <div className="search-books">
                 <div className="search-books-bar">
-                    <a className="close-search" /*onClick={() => this.setState({ showSearchPage: false })}*/>Close</a>
+                    <Link to="/" className="close-search">Close</Link>
                     <div className="search-books-input-wrapper">
                         <input type="text" placeholder="Search by title or author" onChange={(evt) => onSearchBooks(evt.target.value)} />
                     </div>
