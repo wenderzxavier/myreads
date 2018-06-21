@@ -16,8 +16,17 @@ class Shelves extends Component {
             <div>
                 <div className="list-books">
                     <div className="list-books-title">
-                        <h1>MyReads</h1>
+                        <h1>MYREADSFLIX</h1>
                     </div>
+                    <div class="jumbotron jumbotron-fluid">
+                        <div class="container">
+                            <h1 class="display-4">Myreadflix</h1>
+                            <p class="lead">Your virtual library to search books that you already read or want to read.<br/>
+                            Because books are better than movies.</p>
+                            <Link to="/search" class="btn btn-info btn-lg">Start Searching</Link>
+                        </div>
+                    </div>
+
                     <div className="list-books-content">
                         <div>
                             {shelves.map((shelf, index) => {
