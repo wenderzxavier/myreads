@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Book from '../component/Book'
+import Book from './Book'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
@@ -12,18 +12,19 @@ class Shelves extends Component {
     render() {
         const shelves = ["currentlyReading", "wantToRead", "read"];
         const { bookList, onChangeShelf } = this.props;
+        console.log(bookList);
         return (
             <div>
                 <div className="list-books">
                     <div className="list-books-title">
                         <h1>MYREADSFLIX</h1>
                     </div>
-                    <div class="jumbotron jumbotron-fluid">
-                        <div class="container">
-                            <h1 class="display-4">Myreadflix</h1>
-                            <p class="lead">Your virtual library to search books that you already read or want to read.<br/>
-                            Because books are better than movies.</p>
-                            <Link to="/search" class="btn btn-info btn-lg">Start Searching</Link>
+                    <div className="jumbotron jumbotron-fluid">
+                        <div className="container">
+                            <h1 className="display-4">Myreadflix</h1>
+                            <p className="lead">Your virtual library to search books that you already read or want to read.<br />
+                                Because books are better than movies.</p>
+                            <Link to="/search" className="btn btn-info btn-lg">Start Searching</Link>
                         </div>
                     </div>
 

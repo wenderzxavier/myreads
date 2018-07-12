@@ -71,7 +71,7 @@ ol {
   height: 50px;
   border-radius: 50%;
   background: rgb(180,19,29);
-  background-image: url('./icons/add.svg');
+  background-image: url('../icons/add.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 28px;
@@ -109,7 +109,7 @@ ol {
   width: 50px;
   height: 60px;
   background: white;
-  background-image: url('./icons/arrow-back.svg');
+  background-image: url('../icons/arrow-back.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 28px;
@@ -167,7 +167,7 @@ ol {
   height: 15px;
   border-radius: 50%;
   border: 1px solid white;
-  background-image: url('./icons/info.png');
+  background-image: url('../icons/info.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 20px;
@@ -198,7 +198,7 @@ ol {
 /* Slider */
 .jumbotron {
   background-color: rgb(180,19,29);
-  background-image: url("img/background-slider.png");
+  background-image: url("../img/background-slider.png");
   background-repeat: no-repeat;
   background-position: right top;
   background-size: cover;

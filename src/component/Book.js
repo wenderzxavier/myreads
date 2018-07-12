@@ -21,7 +21,7 @@ class Book extends Component {
                         <div className="book-cover" style={{ backgroundImage: `url("${bookData.hasOwnProperty('imageLinks') ? bookData.imageLinks['thumbnail'] : " "}")` }}></div>
                         <div className="book-shelf-changer">
                             <select
-                                defaultValue={ bookData.shelf || "none" }
+                                defaultValue={bookData.shelf || "none"}
                                 onChange={(evt) => this.addBookShelf(evt.target.value)}>
                                 <option value="move" disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
