@@ -4,6 +4,8 @@ import SearchBook from './SearchBook'
 import * as BookAPI from '../utils/BookAPI'
 import Shelves from './Shelves'
 import { Route } from 'react-router-dom'
+import { fetchBooks } from '../actions';
+
 
 class BooksApp extends React.Component {
   state = {
@@ -45,7 +47,16 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
-    this.getAllBooks();
+//    this.getAllBooks();
+    const { store } = this.props;
+
+    // store.dispatch(fetchBooks());
+
+    // setTimeout( () => {
+    //   console.log(store.getState());
+    // }, 4000);
+
+
   }
 
   render() {
