@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { search } from '../utils/BookAPI'
 import { connect } from 'react-redux'
 import { fetchBooks } from '../actions'
+import { DebounceInput } from 'react-debounce-input'
 
 class SearchBook extends Component {
     state = {
@@ -49,7 +50,7 @@ class SearchBook extends Component {
                 <div className="search-books-bar">
                     <Link to="/" className="close-search">Close</Link>
                     <div className="search-books-input-wrapper">
-                        <input type="text" placeholder="Search by title or author" onChange={(evt) => this.searchBooks(evt.target.value)} />
+                        <DebounceInput minLength={3} debounceTimeout={200} type="text" placeholder="Search by title or author" onChange={(evt) => this.searchBooks(evt.target.value)}/>
                     </div>
                 </div>
                 <div className="search-books-results">

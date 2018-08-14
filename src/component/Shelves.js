@@ -10,7 +10,6 @@ class Shelves extends Component {
     }
 
     render() {
-        const shelves = ["currentlyReading", "wantToRead", "read"];
         return (
             <div>
                 <div className="list-books">
@@ -27,7 +26,7 @@ class Shelves extends Component {
                     </div>
                     <div className="list-books-content">
                         <div>
-                            {shelves.map((shelf, index) => {
+                            {["currentlyReading", "wantToRead", "read"].map((shelf, index) => {
                                 return (
                                     <div className="bookshelf" key={index}>
                                         <h2 className="bookshelf-title">{
