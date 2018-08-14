@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import Book from './Book'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { fetchBooks } from '../actions';
 
 class Shelves extends Component {
-    static propTypes = {
-        bookList: PropTypes.array.isRequired,
-        onChangeShelf: PropTypes.func.isRequired
+    componentDidMount() {
+        this.props.dispatch(fetchBooks());
     }
 
     render() {
         const shelves = ["currentlyReading", "wantToRead", "read"];
-        const { bookList, onChangeShelf } = this.props;
         return (
             <div>
                 <div className="list-books">
@@ -26,7 +25,6 @@ class Shelves extends Component {
                             <Link to="/search" className="btn btn-info btn-lg">Start Searching</Link>
                         </div>
                     </div>
-
                     <div className="list-books-content">
                         <div>
                             {shelves.map((shelf, index) => {
@@ -39,12 +37,11 @@ class Shelves extends Component {
                                         }</h2>
                                         <div className="bookshelf-books">
                                             <ol className="books-grid">
-                                                {bookList.filter(item => item.shelf === shelf).map((book) => {
+                                                {this.props.bookList !== undefined && this.props.bookList.filter(item => item.shelf === shelf).map((book) => {
                                                     return (
                                                         <Book
                                                             key={book.id}
                                                             bookData={book}
-                                                            onChangeShelf={onChangeShelf}
                                                         />
                                                     )
                                                 })
@@ -65,4 +62,10 @@ class Shelves extends Component {
     }
 }
 
-export default Shelves;
+function mapStateToProps(state) {
+    return {
+        bookList: state
+    }
+}
+
+export default connect(mapStateToProps)(Shelves);

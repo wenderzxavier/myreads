@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { updateShelf } from '../actions';
+import { connect } from 'react-redux'
 
 class Book extends Component {
     static propTypes = {
-        onChangeShelf: PropTypes.func.isRequired,
         bookData: PropTypes.object
     }
 
     addBookShelf(newShelf) {
-        const { bookData, onChangeShelf } = this.props;
-        onChangeShelf(bookData, newShelf);
+        const { bookData } = this.props;
+        this.props.dispatch(updateShelf(bookData, newShelf));
     }
 
     render() {
@@ -39,4 +40,10 @@ class Book extends Component {
     }
 }
 
-export default Book;
+function mapStateToProps(state) {
+    return {
+        bookList: state
+    }
+}
+
+export default connect(mapStateToProps)(Book);

@@ -1,44 +1,55 @@
 import React, { Component } from 'react';
 import Book from './Book'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { search } from '../utils/BookAPI'
+import { connect } from 'react-redux'
+import { fetchBooks } from '../actions'
 
 class SearchBook extends Component {
     state = {
+        booksFound: [],
         booksToShow: []
     }
 
-    static propTypes = {
-        onSearchBooks: PropTypes.func.isRequired,
-        onChangeShelf: PropTypes.func.isRequired,
-        booksFound: PropTypes.array,
-        bookList: PropTypes.array
-    }
-
-    componentWillReceiveProps = (props) => {
-        let displayBooks = []
-        if (props.booksFound.length > 0 && props.booksFound[0] !== "error") {
-            Object.values(props.booksFound).map((book) => {
-                let myBook = (props.bookList.find((bookOnShelf) => {
-                    return (book.id === bookOnShelf.id)
-                }))
-                return (displayBooks.push(myBook ? myBook : book))
+    searchBooks = async (query) => {
+        if (query) {
+            await search(query).then((result) => {
+                this.setState({
+                    booksFound: result.hasOwnProperty('error') ? ["error"] : result
+                })
+                const { booksFound } = this.state;
+                let displayBooks = [];
+                if (booksFound.length > 0 && booksFound[0] !== "error") {
+                    Object.values(booksFound).map((book) => {
+                        let myBook = (this.props.bookList.find((bookOnShelf) => {
+                            return (book.id === bookOnShelf.id)
+                        }))
+                        return (displayBooks.push(myBook ? myBook : book))
+                    })
+                }
+                this.setState({
+                    booksToShow: displayBooks
+                })
+            })
+        } else {
+            this.setState({
+                booksFound: []
             })
         }
-        this.setState({
-            booksToShow: displayBooks
-        })
+    }
+
+    componentDidMount() {
+        this.props.dispatch(fetchBooks());
     }
 
     render() {
-        const { onSearchBooks, onChangeShelf, booksFound } = this.props;
-        const { booksToShow } = this.state;
+        const { booksToShow, booksFound } = this.state;
         return (
             <div className="search-books">
                 <div className="search-books-bar">
                     <Link to="/" className="close-search">Close</Link>
                     <div className="search-books-input-wrapper">
-                        <input type="text" placeholder="Search by title or author" onChange={(evt) => onSearchBooks(evt.target.value)} />
+                        <input type="text" placeholder="Search by title or author" onChange={(evt) => this.searchBooks(evt.target.value)} />
                     </div>
                 </div>
                 <div className="search-books-results">
@@ -52,14 +63,13 @@ class SearchBook extends Component {
                             you don't find a specific author or title. Every search is limited by search terms.
                             */
                         }
-                        {(booksFound.length > 0 && booksFound[0] === "error") ? <p>Sorry, no result found.</p> :
+                        {(booksFound !== undefined && booksFound.length > 0 && booksFound[0] === "error") ? <p>Sorry, no result found.</p> :
                             (
                                 Object.values(booksToShow).map((book) => {
                                     return (
                                         <Book
                                             key={book.id}
                                             bookData={book}
-                                            onChangeShelf={onChangeShelf}
                                         />
                                     )
                                 })
@@ -72,4 +82,10 @@ class SearchBook extends Component {
     }
 }
 
-export default SearchBook;
+function mapStateToProps(state) {
+    return {
+        bookList: state
+    }
+}
+
+export default connect(mapStateToProps)(SearchBook);
